@@ -1,18 +1,26 @@
-<!-- Demo Chunk Template dwdWetterTPL -->
+<!-- Demo Resource Call -->
+[[$dwdWetterChunk?
+   &STATION=`K428`
+   &QTY=`18`
+   &TPL=`dwdWetterTPL`
+   &T1=`[[!getTimeRoundH]]`
+   &T2=`[[!getTimeRoundH? &add=`6`]]`
+   &T3=`[[!getTimeRoundH? &add=`12`]]`
+   &T4=`[[!getTimeRoundH? &add=`18`]]`
+]]
 
-<div>
+
+<!-- Demo Chunk Template dwdWetter -->
+[[!dwdWeather? &STATION=`[[+STATION]]` &QTY=`[[+QTY]]` &TPL=`[[+TPL]]` &T1=`[[+T1]]` &T2=`[[+T2]]` &T3=`[[+T3]]` &T4=`[[+T4]]`]]
+
+
 	<div>
-	<h4>[[+fc0]] [[+fc2]] [[+fc1]]</h4>
-	<img src='[[+fc17]]' title='[[+fc16]]' alt='' />
+	<h2>Das Wetter für [[+location]] im 6-Stunden-Takt</h2>
+	Stand [[+pubDateDay]] [[+pubDate]]<br />
+	<small>Heute: Tageslicht [[+sunrise]] bis [[+sunset]] (Tageslänge [[+dayduration]] h)</small><br />
+	<small>Luftdrucktendenz ist [[+pTendenz]] [[+pDelta]]</small><br />
 	</div>
-	[[+fc5:gte=`0.1`:then=`<span class="label blue">[[+fc5]]</span>`:else=`<span class="label red">[[+fc5]]</span>`]]
-	<br />
-	<small>Sonnenschein: [[+fc14]]</small><br />
-	 <small>Wolkendecke: [[+fc10]]</small><br />
-	  <small>Niederschlag: [[+fc13]]</small><br />
-	   <small>Wind (Richtung): [[+fc8]] ([[+fc7]])</small><br />
-	    <small>Max. Windböe: [[+fc9]]</small><br />
-	     <small>Luftdruck: [[+fc11]]</small><br />
-	      <small>Luftfeuchte: [[+fc18]]</small><br />
-	       <small>Sichtweite: [[+fc15]]</small><br />
+
+<div class="pure-g">
+     [[+dwdWeather]]
 </div>
