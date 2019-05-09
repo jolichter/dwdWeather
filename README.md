@@ -35,3 +35,5 @@
 ```
 
 Demo: https://jolichter.de/wetter/
+
+![MODX-DWD-Wetter](wetterDWD.jpg)
