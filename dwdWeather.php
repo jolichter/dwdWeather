@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.028
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.029
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -10,14 +10,14 @@
 # z.B.: ID 10609 = Trier, ID 10513 = Koeln/Bonn, ID K428 = Bitburg, usw.
 #
 # Beispiel Snippet "dwdWeather" aufrufen ohne Uhrzeit:
-# [[!dwdWeather? &STATION=`K428` &TPL=`dwdWetterChunkTPL`]]
+# [[!dwdWeather? &STATION=`K428` &TPL=`dwdWetterTPL`]]
 # [[+dwdWeather]]
 # (als Standard wird 12:00 Uhr genommen)
 #
 # mit 4 Uhrzeiten pro Tag (T1 -T4) bei 12 Vorhersagen (QTY), also Vorhersage 3 Tage:
 # [[!dwdWeather?
 #   &STATION=`K428`
-#   &TPL=`dwdWetterChunkTPL`
+#   &TPL=`dwdWetterTPL`
 #   &QTY=`12`
 #   &T1=`06:00`
 #   &T2=`12:00`
@@ -29,14 +29,14 @@
 # mit einer Uhzeit pro Tag:
 # [[!dwdWeather?
 #   &STATION=`K428`
-#   &TPL=`dwdWetterChunkTPL`
+#   &TPL=`dwdWetterTPL`
 #   &T1=`15:00`
 # ]]
 # [[+dwdWeather]]
 #
 # oder
 #
-# im Dokument ein Chunk "chunkWeather" aufrufen: [[$chunkWeather? &STATION=`K428` &TPL=`dwdWetterChunkTPL` &QTY=`QTY` &T1=`06:00` &T2=`12:00` &T3=`16:00` &T4=`20:00`]] [[+dwdWeather]]
+# im Dokument ein Chunk "chunkWeather" aufrufen: [[$chunkWeather? &STATION=`K428` &TPL=`dwdWetterTPL` &QTY=`QTY` &T1=`06:00` &T2=`12:00` &T3=`16:00` &T4=`20:00`]] [[+dwdWeather]]
 # dann in dem Chunk das Snippet aufrufen: [[!dwdWeather? &STATION=`[[+STATION]]` &TPL=`[[+TPL]]` &QTY=`16` &T1=`[[+T1]]` &T2=`[[+T2]]` &T3=`[[+T3]]` &T4=`[[+T4]]`]]
 # und ein eigenes HTML-Gerüst mit den Platzhalter erstellen
 #
@@ -44,7 +44,7 @@
 #   -> Ort und Vorhersagedatum: [[+location]] [[+pubDate]] [[+pubDateDay]]
 #   -> Sonnenaufgang: [[+sunrise]], Sonnenuntergang: [[+sunset]], Tageslänge: [[+dayduration]], Luftdrucktendenz: [[+pTendenz]] [[+pDelta]]
 #
-# Beispiel für ein Chunk Template (z.B. dwdWetterChunkTPL) welches per Platzhalter [[+dwdWeather]] dann platziert wird:
+# Beispiel für ein Chunk Template (z.B. dwdWetterTPL) welches per Platzhalter [[+dwdWeather]] dann platziert wird:
 #
 #   <div>
 #       <div>
@@ -73,8 +73,8 @@
 #
 # Variablen -Start------------------->
 
-   # Chunk Template(default ist dwdWetterTPL)
-   $strTPL = $modx->getOption('TPL',$scriptProperties,'dwdWetterTPL');
+   # Chunk Template(default ist ohne)
+   $strTPL = $modx->getOption('TPL',$scriptProperties,'');
    # Anzahl der Vorhersagen (default ist 40, bei 4 pro Tag sind das dann 10 Tage)
    $intQTY = $modx->getOption('QTY',$scriptProperties, 40);
    $strTMP = MODX_ASSETS_PATH.'dwd_temp/';
@@ -824,14 +824,15 @@ unset($array[$intCA]); # RIP last array (it is empty)
             # Platzhalter (z.B. für Kalender)
             $modx->setPlaceholder('fc_'.$key.'_'.$subKey, $subValue);
 
-            # Template per getChunk (kann per Platzhalter [+dwdWeather]] platziert werden)
-            # Array für Template Chunk
+            # Array für getChunk (kann per Platzhalter [[+dwdWeather]] platziert werden)
             $arr = ['FC' => $key, 'fc'.$subKey => $subValue];
             $arr = $arr + $arr2;
             $arr2 = $arr;
         }
 
-        $output .= $modx->getChunk($strTPL, $arr);
+        if ($arr) {
+            $output .= $modx->getChunk($strTPL, $arr);
+        }
   }
 
 $modx->setPlaceholder('dwdWeather', $output);
