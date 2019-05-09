@@ -10,9 +10,8 @@
 ]]
 
 
-<!-- Demo Chunk Template dwdWetter -->
+<!-- Demo Chunk dwdWetter -->
 [[!dwdWeather? &STATION=`[[+STATION]]` &QTY=`[[+QTY]]` &TPL=`[[+TPL]]` &T1=`[[+T1]]` &T2=`[[+T2]]` &T3=`[[+T3]]` &T4=`[[+T4]]`]]
-
 
 	<div>
 	<h2>Das Wetter für [[+location]] im 6-Stunden-Takt</h2>
@@ -21,6 +20,6 @@
 	<small>Luftdrucktendenz ist [[+pTendenz]] [[+pDelta]]</small><br />
 	</div>
 
-<div class="pure-g">
+<div>
      [[+dwdWeather]]
 </div>
