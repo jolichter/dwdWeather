@@ -1,0 +1,18 @@
+<!-- Demo Template Chunk dwdWetterTPL -->
+
+<div>
+	<div>
+	<h4>[[+fc0]] [[+fc2]] [[+fc1]]</h4>
+	<img src='[[+fc17]]' title='[[+fc16]]' alt='' />
+	</div>
+	[[+fc5:gte=`0.1`:then=`<span class="label blue">[[+fc5]]</span>`:else=`<span class="label red">[[+fc5]]</span>`]]
+	<br />
+	<small>Sonnenschein: [[+fc14]]</small><br />
+	 <small>Wolkendecke: [[+fc10]]</small><br />
+	  <small>Niederschlag: [[+fc13]]</small><br />
+	   <small>Wind (Richtung): [[+fc8]] ([[+fc7]])</small><br />
+	    <small>Max. Windböe: [[+fc9]]</small><br />
+	     <small>Luftdruck: [[+fc11]]</small><br />
+	      <small>Luftfeuchte: [[+fc18]]</small><br />
+	       <small>Sichtweite: [[+fc15]]</small><br />
+</div>
