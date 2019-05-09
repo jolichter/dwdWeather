@@ -3,8 +3,8 @@
 
 #### Wettervorhersage für MODX Revolution vom deutschen Wetterdienst
 #### Weather forecast for MODX Revolution by the German Weather Service
-- URL DWD: https://www.dwd.de/
-- DEUTSCHE DWD-Wettervorhersage via CURL für MODX, benötigt wird ein Snippet und 2 Chunks
+- [Link DWD.de](https://www.dwd.de/)
+- DEUTSCHE DWD-Wettervorhersage via CURL für MODX, benötigt werden 2 Snippets und 2 Chunks
 - GERMAN DWD-Weather forecast via CURL for MODX, you need one Snippet and 2 Chunks
 
 ---
@@ -34,4 +34,15 @@
 [[+dwdWeather]]
 ```
 
+##### INFOS und LINKS
+- [README opendata.dwd.de](https://opendata.dwd.de/README.txt)
+- [MOSMIX-Elemente - DWD](https://www.dwd.de/DE/leistungen/opendata/help/schluessel_datenformate/kml/mosmix_elemente_pdf)
+- [Content of opendata.dwd.de/weather](https://www.dwd.de/DE/leistungen/opendata/help/inhalt_allgemein/opendata_content_de_en_pdf)
+- [Beschreibungen der einzelnen Parameter des Elementes Wetter (ww...)](https://www.dwd.de/DE/leistungen/opendata/help/schluessel_datenformate/kml/mosmix_element_weather_xls.html)
+- [MOSMIX-Vorhersagedaten FAQ](https://rcccm.dwd.de/DE/leistungen/met_verfahren_mosmix/faq/faq_mosmix_node.html)
+- [DWD Stationskatalog](https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102)
+- [ww-Code - Hashs mit deutschen Konditionen (Code/Description)](https://wetterkanal.kachelmannwetter.com/was-ist-der-ww-code-in-der-meteorologie/)
+
+##### Demo Print Screen
 ![MODX-DWD-Wetter](wetterDWD.jpg)
+
