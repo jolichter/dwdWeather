@@ -4,8 +4,8 @@
 #### Wettervorhersage für MODX Revolution vom deutschen Wetterdienst
 #### Weather forecast for MODX Revolution by the German Weather Service
 - [Link DWD.de](https://www.dwd.de/)
-- DEUTSCHE DWD-Wettervorhersage via CURL für MODX, benötigt werden 2 Snippets und 2 Chunks
-- GERMAN DWD-Weather forecast via CURL for MODX, you need one Snippet and 2 Chunks
+- DEUTSCHE DWD-Wettervorhersage via CURL für MODX - benötigt eine Ressource, 2 Snippets und 2 Chunks
+- GERMAN DWD-Weather forecast via CURL for MODX - needs one Resource, 2 Snippets and 2 Chunks
 
 ---
 
