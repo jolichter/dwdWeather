@@ -1,3 +1,5 @@
+<!-- Demo Chunk dwdWetter -->
+
 [[!dwdWeather? &STATION=`[[+STATION]]` &QTY=`[[+QTY]]` &TPL=`[[+TPL]]` &T1=`[[+T1]]` &T2=`[[+T2]]` &T3=`[[+T3]]` &T4=`[[+T4]]`]]
 
 <div>
