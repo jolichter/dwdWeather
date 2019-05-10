@@ -7,7 +7,7 @@
 	<small>Luftdrucktendenz ist [[+pTendenz]] [[+pDelta]]</small><br />
 	</div>
 
-[[$dwdWetterChunk?
+[[$dwdWetter?
    &STATION=`K428`
    &QTY=`18`
    &TPL=`dwdWetterTPL`
