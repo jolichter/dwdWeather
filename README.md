@@ -43,6 +43,8 @@
 - [DWD Stationskatalog](https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102)
 - [ww-Code - Hashs mit deutschen Konditionen (Code/Description)](https://wetterkanal.kachelmannwetter.com/was-ist-der-ww-code-in-der-meteorologie/)
 
-##### Demo Print Screen
+##### Demo Weather Print Screen
 ![MODX-DWD-Wetter](wetterDWD.jpg)
+##### Demo Weather Print Screen with Calendar
+![MODX-DWD-Kalender-Wetter](wetterKalenderDWD.jpg)
 
