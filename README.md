@@ -34,6 +34,8 @@
 [[+dwdWeather]]
 ```
 
+##### Der MOSMIX-Vorhersagedatensatz "MOSMIX_L" enthält ca. 150 Wettervariablen pro Vorhersage und die maximale Vorhersagezeit beträgt +240 Stunden. Die Vorhersage wird 4 mal täglich um 03, 09, 15 und 21 Uhr UTC aktualisiert. Das Snippet holt 19 dieser Wettervariablen stündlich per cURL (nur wenn Seite geladen wird) und setzt diese in Platzhalter, bzw. in ein Chunk Template für Wetterelemente (10 Tage Trend).
+
 ##### German INFOS und LINKS (some documents you can switch to english)
 - [README opendata.dwd.de](https://opendata.dwd.de/README.txt)
 - [MOSMIX-Elemente - DWD](https://www.dwd.de/DE/leistungen/opendata/help/schluessel_datenformate/kml/mosmix_elemente_pdf)
