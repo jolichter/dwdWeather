@@ -45,6 +45,6 @@
 
 ##### Demo Weather Print Screen
 ![MODX-DWD-Wetter](wetterDWD.jpg)
-##### Demo Weather Print Screen with Calendar
+##### Demo Weather Print Screen with [fullCalendar](https://fullcalendar.io/)
 ![MODX-DWD-Kalender-Wetter](wetterKalenderDWD.jpg)
 
