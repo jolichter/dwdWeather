@@ -34,7 +34,7 @@
 [[+dwdWeather]]
 ```
 
-##### INFOS und LINKS
+##### German INFOS und LINKS (some documents you can switch to english)
 - [README opendata.dwd.de](https://opendata.dwd.de/README.txt)
 - [MOSMIX-Elemente - DWD](https://www.dwd.de/DE/leistungen/opendata/help/schluessel_datenformate/kml/mosmix_elemente_pdf)
 - [Content of opendata.dwd.de/weather](https://www.dwd.de/DE/leistungen/opendata/help/inhalt_allgemein/opendata_content_de_en_pdf)
