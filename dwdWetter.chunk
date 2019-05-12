@@ -1,7 +1,14 @@
-<!-- Demo Chunk dwdWetter -->
+<!-- Demo Chunk dwdWetter for FullCalendar -->
 
-[[!dwdWeather? &STATION=`[[+STATION]]` &QTY=`[[+QTY]]` &TPL=`[[+TPL]]` &T1=`[[+T1]]` &T2=`[[+T2]]` &T3=`[[+T3]]` &T4=`[[+T4]]`]]
+[[!dwdWeather? &STATION=`[[+STATION]]` &T1=`[[+T1]]`]]
 
-<div>
-     [[+dwdWeather]]
-</div>
+{ start: '[[+fc_0_0]]', end: '[[+fc_0_0]]', allDay: true, title: '[[+fc_0_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_0_16]]` &options=`25`]]', icon: '[[+fc_0_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_1_0]]', end: '[[+fc_1_0]]', allDay: true, title: '[[+fc_1_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_1_16]]` &options=`25`]]', icon: '[[+fc_1_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_2_0]]', end: '[[+fc_2_0]]', allDay: true, title: '[[+fc_2_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_2_16]]` &options=`25`]]', icon: '[[+fc_2_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_3_0]]', end: '[[+fc_3_0]]', allDay: true, title: '[[+fc_3_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_3_16]]` &options=`25`]]', icon: '[[+fc_3_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_4_0]]', end: '[[+fc_4_0]]', allDay: true, title: '[[+fc_4_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_4_16]]` &options=`25`]]', icon: '[[+fc_4_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_5_0]]', end: '[[+fc_5_0]]', allDay: true, title: '[[+fc_5_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_5_16]]` &options=`25`]]', icon: '[[+fc_5_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_6_0]]', end: '[[+fc_6_0]]', allDay: true, title: '[[+fc_6_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_6_16]]` &options=`25`]]', icon: '[[+fc_6_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_7_0]]', end: '[[+fc_7_0]]', allDay: true, title: '[[+fc_7_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_7_16]]` &options=`25`]]', icon: '[[+fc_7_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_8_0]]', end: '[[+fc_8_0]]', allDay: true, title: '[[+fc_8_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_8_16]]` &options=`25`]]', icon: '[[+fc_8_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
+{ start: '[[+fc_9_0]]', end: '[[+fc_9_0]]', allDay: true, title: '[[+fc_9_5]]', description: '[[wordwrapN? &input=`[[+T1]] Uhr: [[+fc_9_16]]` &options=`25`]]', icon: '[[+fc_9_17]]', textColor: 'black', color: 'transparent', url: 'https://jolichter.de/wetter/' },
