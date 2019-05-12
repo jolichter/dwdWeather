@@ -51,4 +51,4 @@
 ![MODX-DWD-Wetter](wetterDWD.jpg)
 ##### Demo Weather Print Screen with [fullCalendar](https://fullcalendar.io/)
 ![MODX-DWD-Kalender-Wetter](wetterKalenderDWD.jpg)
-
+- [Demo Page: jolichter.de/wetter](https://jolichter.de/wetter/)
