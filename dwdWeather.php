@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.029
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.030
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -629,7 +629,11 @@ if (!function_exists('wwPic')) {
         }
 
         foreach ($param as $key => $value) {
+            if($value !== null && !is_numeric($value)) {
+                $value = 0;
+            }
             $v = $value;
+
             if (in_array($id, array('TN', 'TX', 'TTT', 'Td'))) {
                 $v = round(floatval($value) - 273.15, 1);
                 $v = str_replace(',', '.', $v);
