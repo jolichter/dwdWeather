@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.030
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.031
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -21,8 +21,8 @@
 #   &QTY=`12`
 #   &T1=`06:00`
 #   &T2=`12:00`
-#   &T3=`16:00`
-#   &T4=`20:00`
+#   &T3=`18:00`
+#   &T4=`00:00`
 # ]]
 # [[+dwdWeather]]
 #
@@ -30,13 +30,13 @@
 # [[!dwdWeather?
 #   &STATION=`K428`
 #   &TPL=`dwdWetterTPL`
-#   &T1=`15:00`
+#   &T1=`18:00`
 # ]]
 # [[+dwdWeather]]
 #
 # oder
 #
-# im Dokument ein Chunk "chunkWeather" aufrufen: [[$chunkWeather? &STATION=`K428` &TPL=`dwdWetterTPL` &QTY=`QTY` &T1=`06:00` &T2=`12:00` &T3=`16:00` &T4=`20:00`]] [[+dwdWeather]]
+# im Dokument ein Chunk "chunkWeather" aufrufen: [[$chunkWeather? &STATION=`K428` &TPL=`dwdWetterTPL` &QTY=`QTY` &T1=`06:00` &T2=`12:00` &T3=`18:00` &T4=`00:00`]] [[+dwdWeather]]
 # dann in dem Chunk das Snippet aufrufen: [[!dwdWeather? &STATION=`[[+STATION]]` &TPL=`[[+TPL]]` &QTY=`16` &T1=`[[+T1]]` &T2=`[[+T2]]` &T3=`[[+T3]]` &T4=`[[+T4]]`]]
 # und ein eigenes HTML-Gerüst mit den Platzhalter erstellen
 #
@@ -595,6 +595,8 @@ if (!function_exists('wwPic')) {
 
 
     #short name / long name (for header)
+    #RR6c not available for all hours! 6am, 12am, 6pm and 12pm - if needed for all hours: change all RR6c to RR1c
+    #RR6c = better precipitation forecasts
     $alias = array(
       'TN' => 'minT',        // Minimum temperature - within the last 12 hours (Kelvin) | nur 06:00 und 18:00 Uhr!
       'TX' => 'maxT',        // Maximum temperature - within the last 12 hours (Kelvin) | nur 06:00 und 18:00 Uhr!
@@ -606,7 +608,7 @@ if (!function_exists('wwPic')) {
       'Neff' => 'cloud',     // Effective cloud cover (%)
       'PPPP' => 'hPA',       // Surface pressure, reduced | hPA (mBAR)= Pa/1000
       'DRR1' => 'rainMin',   // Duration of precipitation within the last hour (sec) | wird in Minuten umgerechnet
-      'RR1c' => 'rainKg',    // Total precipitation during the last hour (kg/m2) | Niederschlag 1 Ltr pro kg/m2 = 1 mm
+      'RR6c' => 'rainKg',    // Total precipitation during the last 6 hour consistent(with significant weather kg/m2) | Niederschlag 1 Ltr pro kg/m2 = 1 mm
       'SunD3' => 'sun',      // Sunshine duration during the last three hours (s)
       'VV' => 'vis',         // Visibility (m) | wird in km umgerechnet
       'ww' => 'sigW'         // Significant Weather (ID)
@@ -624,11 +626,12 @@ if (!function_exists('wwPic')) {
              $param = array_fill(0, count($timeSteps), '---');
            }
         } else {
-             # PHP7.2 prevents warning: 'Parameter must be an array or an object that implements Countable'
+             # PHP7.2 prevents warning: "Parameter must be an array or an object that implements Countable"
              $param = array_fill(0, count($timeSteps), '---');
         }
 
         foreach ($param as $key => $value) {
+            # prevents PHP warning "a non-numeric value encountered"
             if($value !== null && !is_numeric($value)) {
                 $value = 0;
             }
@@ -644,7 +647,7 @@ if (!function_exists('wwPic')) {
             if (in_array($id, array('Neff', 'Nh', 'Nm', 'Nl', 'ww','DRR1'))) {
                 $v = round($value);
             }
-            if ($id == 'RR1c') {
+            if ($id == 'RR6c') {
                 $v = round($value, 1);
                 $v = str_replace(',', '.', $v);
             }
@@ -682,8 +685,8 @@ if (!function_exists('wwPic')) {
                 $v = $v / 60;
                 $v = $v.' min/h';
             }
-            if ($id == 'RR1c') { # 1h
-                $v = $v.' Ltr/h';
+            if ($id == 'RR6c') { # 6h
+                $v = $v.' Ltr/6h';
             }
             if ($id == 'PPPP') {
                 $v = $v.' hPA';
