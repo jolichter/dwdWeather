@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.031
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.032
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -96,19 +96,22 @@
    $intSun = 30;
    # Hitzewelle gilt ab wieviel Grad? Wetter Icon Sonne 0h.png (TX)
    $valMaxT = 35.0;        # ab x Grad Celsius (z.B. 35.0)
+   # wenn Winter-Sommerzeit angepasst werden muss
+   $bolTimeOffset = false;
 
 # Variablen -Ende-------------------<
 
-
-   # Sommerzeit/Winterzeit
-   # daylight timeOffset to UTC)
-   # 1 bei Sommerzeit, ansonsten 0
-      if(date('I') == 1) {
-         $timeOffset = '7200';
-      }
-      else{
-         $timeOffset = '3600';
-      }
+   if ($bolTimeOffset) {
+      # Sommerzeit/Winterzeit
+      # daylight timeOffset to UTC)
+      # 1 bei Sommerzeit, ansonsten 0
+         if(date('I') == 1) {
+            $timeOffset = '7200';
+         }
+         else{
+            $timeOffset = '3600';
+         }
+   }
 
 # relative Luftfeuchtigkeit berechnen
 # calculate relative humidity (TTT(K), Td(K))
