@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.032
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.033
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -67,7 +67,7 @@
 #   -> 20 Vorhersagen (10 Tage): [[+fc_V_E]]  (V = Vorhersage Nr (0-19) | E = Elemente (0-18), z.B. [[+fc_0_5]] 
 #
 #   19 Elemente: 0 Date | 1 Time | 2 Day | 3 minT | 4 maxT | 5 2mT | 6 dewPoint | 7 windDir | 8 windSpeed | 9 windGust | 10 cloud |
-#   11 hPa | 12 rainMin | 13 rainKg | 14 sun | 15 vis | 16 sigW | 17 picName | 18 hu |
+#   11 hPa | 12 rainKg12h | 13 rainKg6h | 14 sun | 15 vis | 16 sigW | 17 picName | 18 hu |
 #
 #
 #
@@ -610,8 +610,8 @@ if (!function_exists('wwPic')) {
       'FX3' => 'windGust',   // Wind speed (m/s) | m/s * 3.6 = km/h
       'Neff' => 'cloud',     // Effective cloud cover (%)
       'PPPP' => 'hPA',       // Surface pressure, reduced | hPA (mBAR)= Pa/1000
-      'DRR1' => 'rainMin',   // Duration of precipitation within the last hour (sec) | wird in Minuten umgerechnet
-      'RR6c' => 'rainKg',    // Total precipitation during the last 6 hour consistent(with significant weather kg/m2) | Niederschlag 1 Ltr pro kg/m2 = 1 mm
+      'RRhc' => 'rainKG12h', // Total precipitation last 12 hour consistent with significant weather | Niederschlag 1 Ltr pro kg/m2 = 1 mm
+      'RR6c' => 'rainKg6h',  // Total precipitation last 6 hour consistent with significant weather | Niederschlag 1 Ltr pro kg/m2 = 1 mm
       'SunD3' => 'sun',      // Sunshine duration during the last three hours (s)
       'VV' => 'vis',         // Visibility (m) | wird in km umgerechnet
       'ww' => 'sigW'         // Significant Weather (ID)
@@ -647,10 +647,10 @@ if (!function_exists('wwPic')) {
             if ($id == 'PPPP') {
                 $v = round($value / 100, 0);
             }
-            if (in_array($id, array('Neff', 'Nh', 'Nm', 'Nl', 'ww','DRR1'))) {
+            if (in_array($id, array('Neff', 'Nh', 'Nm', 'Nl', 'ww'))) {
                 $v = round($value);
             }
-            if ($id == 'RR6c') {
+            if (in_array($id, array('RRhc', 'RR6c'))) {
                 $v = round($value, 1);
                 $v = str_replace(',', '.', $v);
             }
@@ -687,6 +687,9 @@ if (!function_exists('wwPic')) {
             if ($id == 'DRR1') { # 1h
                 $v = $v / 60;
                 $v = $v.' min/h';
+            }
+            if ($id == 'RRhc') { # 12h
+                $v = $v.' Ltr/12h';
             }
             if ($id == 'RR6c') { # 6h
                 $v = $v.' Ltr/6h';
