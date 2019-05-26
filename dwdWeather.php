@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.034
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.035
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -216,16 +216,18 @@ for($i=0; $i<$za->numFiles; $i++) {
     $zenith = 90+50/60;
     $sunset = date_sunset($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
     $sunrise = date_sunrise($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
+    $mycoordinates = $coordinates[1] .', '. $coordinates[0];
     $dayduration = $sunset - $sunrise;
       $sunrise = date('H:i',$sunrise);
       $sunset = date('H:i',$sunset);
         $dayduration = round($dayduration/60/60, 2);
         $dayduration = str_replace(',', '.', $dayduration);
 
-    # Platzhalter Sonnenaufgang, Sonnenuntergang und Tageslänge
+    # Platzhalter Sonnenaufgang, Sonnenuntergang, Tageslänge und Koordinaten
     $modx->setPlaceholder('sunrise', $sunrise);
     $modx->setPlaceholder('sunset', $sunset);
     $modx->setPlaceholder('dayduration', $dayduration);
+    $modx->setPlaceholder('coordinates', $mycoordinates);
 
     $pubDate = (string) $xmlDocument->ExtendedData->children('dwd', true)->ProductDefinition->IssueTime;
       $pubDate = strtotime($pubDate) + $timeOffset;
@@ -235,7 +237,7 @@ for($i=0; $i<$za->numFiles; $i++) {
         $pubDateDay = $wochentag[$pubDateDay];
 
 
-    # Platzhalter Ort und Veröffentlichungsdatum
+    # Platzhalter Ort, Koordinaten und Veröffentlichungsdatum
     $modx->setPlaceholder('location', $location);
     $modx->setPlaceholder('pubDate', $pubDate);
     $modx->setPlaceholder('pubDateDay', $pubDateDay);
