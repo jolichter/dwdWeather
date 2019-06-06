@@ -6,7 +6,7 @@
 # https://opendata.dwd.de/README.txt
 #
 # MOSMIX-Dateien werden in dem xml-ähnlichen kml-Format ausgeliefert, die Dateien sind als kmz-Dateien komprimiert
-# DWD Stationskatalog: https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
+# DWD Stationskatalog (Vorhersagepunkte): https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
 # z.B.: ID 10609 = Trier, ID 10513 = Koeln/Bonn, ID K428 = Bitburg, usw.
 #
 # Beispiel Snippet "dwdWeather" aufrufen ohne Uhrzeit:
