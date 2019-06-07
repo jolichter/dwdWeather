@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.05.035
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.036
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -195,16 +195,13 @@ if (!function_exists('getWindDirection')) {
 $fn = $strZieldatei;
 
 $za = new ZipArchive();
-$res = $za->open($fn);
+$za->open($fn);
 
 for($i=0; $i<$za->numFiles; $i++) {
     $stat = $za->statIndex($i);
     $data = file_get_contents('zip://'.$strZieldatei.'#'.$stat['name']);
 
-
-
     # Ort, Ausgabezeit und Lokation (für Sonnenaufgang und Sonnenuntergang Berechnung)
-
     $xml2 = simplexml_load_string($data);
     $xmlDocument = $xml2->children('kml', true)->Document;
 
