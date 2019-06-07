@@ -26,7 +26,7 @@
 # ]]
 # [[+dwdWeather]]
 #
-# mit einer Uhzeit pro Tag:
+# mit einer Uhrzeit pro Tag:
 # [[!dwdWeather?
 #   &STATION=`K428`
 #   &TPL=`dwdWetterTPL`
@@ -79,7 +79,7 @@
    $intQTY = $modx->getOption('QTY',$scriptProperties, 40);
    $strTMP = MODX_ASSETS_PATH.'dwd_temp/';
    $strURL = 'https://opendata.dwd.de/weather/local_forecasts/mos/MOSMIX_L/single_stations/';
-   $strStation = $modx->getOption('STATION',$scriptProperties,'10609');
+   $strStation = $modx->getOption('STATION',$scriptProperties,'10609'); # älteste Stadt Deutschlands
    $strURL .= $strStation . '/kml/MOSMIX_L_LATEST_' . $strStation . '.kmz';
    # Icons Bilder Pfad
    $strURLIcon = $modx->config['base_url'].'assets/dwd_img/';     #Wetter-Icons
@@ -94,7 +94,7 @@
    $intPStable = 4;
    # Wetter Icons mit oder ohne Sonne (SunD3) anzeigen, ab x %
    $intSun = 30;
-   # Hitzewelle gilt ab wieviel Grad? Wetter Icon Sonne 0h.png (TX)
+   # Hitzewelle gilt ab wie viel Grad? Wetter Icon Sonne 0h.png (TX)
    $valMaxT = 35.0;        # ab x Grad Celsius (z.B. 35.0)
    # wenn Winter-Sommerzeit angepasst werden muss
    $bolTimeOffset = false;
