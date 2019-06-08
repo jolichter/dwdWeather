@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.037
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.038
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -111,6 +111,11 @@
          }
    }
 
+   # Ordner anlegen wenn fehlt
+   if(!file_exists($strTMP)) {
+      mkdir($strTMP, 0755, true);
+   }
+
 
 # relative Luftfeuchtigkeit berechnen
 # calculate relative humidity (TTT(K), Td(K))
@@ -159,32 +164,8 @@ if (!function_exists('getWindDirection')) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
    $strDatumStunde = date('Y-m-d_G');
    $strZieldatei = $strTMP.$strStation.'_'.$strDatumStunde.'_dwdWeather.kmz';
-
-   if(!file_exists($strTMP)) {
-      mkdir($strTMP, 0755, true);
-   }
-
 
    # max. stündlich eine neue Datei ([Station]_[ISO-Datum]_[h]_dwdWeather.kmz) erstellen und alle alte [Station].* löschen -Start------------------->
    if(!file_exists($strZieldatei)) {
@@ -207,15 +188,13 @@ if (!function_exists('getWindDirection')) {
    } # max. stündlich -Ende-------------------<
 
 
-    // downloaded source data (*.kmz)
+    # downloaded source data (*.kmz)
     $fn = $strZieldatei;
     $za = new ZipArchive();
     $za->open($fn);
 
 
-
-
-    // Header-Infos
+    # Header-Infos
     $stat = $za->statIndex(0);
     $data = file_get_contents('zip://'.$strZieldatei.'#'.$stat['name']);
 
@@ -255,7 +234,6 @@ if (!function_exists('getWindDirection')) {
     $modx->setPlaceholder('location', $location);
     $modx->setPlaceholder('pubDate', $pubDate);
     $modx->setPlaceholder('pubDateDay', $pubDateDay);
-
 
 
 
