@@ -1,15 +1,16 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.038
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.039
 #
-# Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
+# Entgeltfreie Versorgung mit DWD-Geodaten über dem Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
 #
 # MOSMIX-Dateien werden in dem xml-ähnlichen kml-Format ausgeliefert, die Dateien sind als kmz-Dateien komprimiert
-# DWD Stationskatalog (Vorhersagepunkte): https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
+# DWD Stationskatalog (oder besser Vorhersagepunkte!): https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
 # z.B.: ID 10609 = Trier, ID 10513 = Koeln/Bonn, ID K428 = Bitburg, usw.
 #
-# Beispiel Snippet "dwdWeather" aufrufen ohne Uhrzeit:
+# Beispiele für Snippet-Aufrufe
+# ohne Uhrzeit:
 # [[!dwdWeather? &STATION=`K428` &TPL=`dwdWetterTPL`]]
 # [[+dwdWeather]]
 # (als Standard wird 12:00 Uhr genommen)
@@ -26,7 +27,7 @@
 # ]]
 # [[+dwdWeather]]
 #
-# mit einer Uhrzeit pro Tag:
+# eine definierte Zeit pro Tag:
 # [[!dwdWeather?
 #   &STATION=`K428`
 #   &TPL=`dwdWetterTPL`
@@ -45,23 +46,22 @@
 #   -> Sonnenaufgang: [[+sunrise]], Sonnenuntergang: [[+sunset]], Tageslänge: [[+dayduration]], Luftdrucktendenz: [[+pTendenz]] [[+pDelta]]
 #
 # Beispiel für ein Chunk Template (z.B. dwdWetterTPL) welches per Platzhalter [[+dwdWeather]] dann platziert wird:
-#
-#   <div>
-#       <div>
-#	<h4>[[+fc0]] [[+fc2]] [[+fc1]]</h4>
-#	<img src='[[+fc17]]' title='[[+fc16]]' alt='' />
-#	</div>
-#	[[+fc5:gte=`0.1`:then=`<span class="label blue">[[+fc5]]</span>`:else=`<span class="label red">[[+fc5]]</span>`]]
-#	<br />
-#	<small>Sonnenschein: [[+fc14]]</small><br />
-#	 <small>Wolkendecke: [[+fc10]]</small><br />
-#	  <small>Niederschlag: [[+fc13]]</small><br />
-#	   <small>Wind (Richtung): [[+fc8]] ([[+fc7]])</small><br />
-#	    <small>Max. Windböe: [[+fc9]]</small><br />
-#	     <small>Luftdruck: [[+fc11]]</small><br />
-#	      <small>Luftfeuchte: [[+fc18]]</small><br />
-#	       <small>Sichtweite: [[+fc15]]</small><br />
-#   </div>
+#  <div>
+#    <div>
+#    <h4>[[+fc0]] [[+fc2]] [[+fc1]]</h4>
+#	   <img src='[[+fc17]]' title='[[+fc16]]' alt='' />
+#	   </div>
+#	   [[+fc5:gte=`0.1`:then=`<span class="label blue">[[+fc5]]</span>`:else=`<span class="label red">[[+fc5]]</span>`]]
+#	   <br />
+#	   <small>Sonnenschein: [[+fc14]]</small><br />
+#	    <small>Wolkendecke: [[+fc10]]</small><br />
+#	     <small>Niederschlag: [[+fc13]]</small><br />
+#	      <small>Wind (Richtung): [[+fc8]] ([[+fc7]])</small><br />
+#	       <small>Max. Windböe: [[+fc9]]</small><br />
+#	        <small>Luftdruck: [[+fc11]]</small><br />
+#	         <small>Luftfeuchte: [[+fc18]]</small><br />
+#	          <small>Sichtweite: [[+fc15]]</small><br />
+#  </div>
 #
 #   Vorhersage Platzhalter z.B. für Kalender
 #   -> 20 Vorhersagen (10 Tage): [[+fc_V_E]]  (V = Vorhersage Nr (0-19) | E = Elemente (0-18), z.B. [[+fc_0_5]] 
@@ -78,7 +78,7 @@
    $intQTY = $modx->getOption('QTY',$scriptProperties, 40);
    $strTMP = MODX_ASSETS_PATH.'dwd_temp/';
    $strURL = 'https://opendata.dwd.de/weather/local_forecasts/mos/MOSMIX_L/single_stations/';
-   $strStation = $modx->getOption('STATION',$scriptProperties,'10609'); # älteste Stadt Deutschlands
+   $strStation = $modx->getOption('STATION',$scriptProperties,'10609'); # Trier (älteste Stadt Deutschlands)
    $strURL .= $strStation . '/kml/MOSMIX_L_LATEST_' . $strStation . '.kmz';
    # Icons Bilder Pfad
    $strURLIcon = $modx->config['base_url'].'assets/dwd_img/';     #Wetter-Icons
@@ -111,7 +111,7 @@
          }
    }
 
-   # Ordner anlegen wenn fehlt
+   # Ordner anlegen, wenn fehlt
    if(!file_exists($strTMP)) {
       mkdir($strTMP, 0755, true);
    }
@@ -162,80 +162,6 @@ if (!function_exists('getWindDirection')) {
    return $direction[$b % count($direction)];
    }
 }
-
-
-   $strDatumStunde = date('Y-m-d_G');
-   $strZieldatei = $strTMP.$strStation.'_'.$strDatumStunde.'_dwdWeather.kmz';
-
-   # max. stündlich eine neue Datei ([Station]_[ISO-Datum]_[h]_dwdWeather.kmz) erstellen und alle alte [Station].* löschen -Start------------------->
-   if(!file_exists($strZieldatei)) {
-      array_map('unlink', glob($strTMP.$strStation.'*'));
-
-      # Datei per CURL abholen -Start------------------->
-      if (function_exists('curl_version')) {
-         $ch = curl_init($strURL);
-         $zieldatei = fopen($strZieldatei, 'w');
-         curl_setopt($ch, CURLOPT_FILE, $zieldatei);
-         curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
-         curl_exec($ch);
-         $intReturnCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-         fclose($zieldatei);
-         # prüfe ob die Seite erreichbar ist!
-         if ($intReturnCode != 200 && $intReturnCode != 302 && $intReturnCode != 304) {return 'ERROR: Page not available!';};
-         }
-      # Datei per CURL abholen -Ende--------------------<
-
-   } # max. stündlich -Ende-------------------<
-
-
-    # downloaded source data (*.kmz)
-    $fn = $strZieldatei;
-    $za = new ZipArchive();
-    $za->open($fn);
-
-
-    # Header-Infos
-    $stat = $za->statIndex(0);
-    $data = file_get_contents('zip://'.$strZieldatei.'#'.$stat['name']);
-
-    # Ort, Ausgabezeit und Lokation (für Sonnenaufgang und Sonnenuntergang Berechnung)
-    $xml2 = simplexml_load_string($data);
-    $xmlDocument = $xml2->children('kml', true)->Document;
-
-    $location = (string) $xmlDocument->Placemark->description;
-    $coordinates = (string) $xmlDocument->Placemark->Point->coordinates;   # Bitburg "6.53,49.98,359.0"
-    $coordinates = explode(',', $coordinates);
-
-    $now = time();
-    $zenith = 90+50/60;
-    $sunset = date_sunset($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
-    $sunrise = date_sunrise($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
-    $mycoordinates = $coordinates[1] .', '. $coordinates[0];
-    $dayduration = $sunset - $sunrise;
-      $sunrise = date('H:i',$sunrise);
-      $sunset = date('H:i',$sunset);
-        $dayduration = round($dayduration/60/60, 2);
-        $dayduration = str_replace(',', '.', $dayduration);
-
-    # Platzhalter Sonnenaufgang, Sonnenuntergang, Tageslänge und Koordinaten
-    $modx->setPlaceholder('sunrise', $sunrise);
-    $modx->setPlaceholder('sunset', $sunset);
-    $modx->setPlaceholder('dayduration', $dayduration);
-    $modx->setPlaceholder('coordinates', $mycoordinates);
-
-    $pubDate = (string) $xmlDocument->ExtendedData->children('dwd', true)->ProductDefinition->IssueTime;
-      $pubDate = strtotime($pubDate) + $timeOffset;
-        $pubDateDay = date('w', $pubDate);
-        $pubDate = date('Y-m-d H:i', $pubDate);
-        $wochentag = array('So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.');
-        $pubDateDay = $wochentag[$pubDateDay];
-
-    # Platzhalter Ort, Koordinaten und Veröffentlichungsdatum
-    $modx->setPlaceholder('location', $location);
-    $modx->setPlaceholder('pubDate', $pubDate);
-    $modx->setPlaceholder('pubDateDay', $pubDateDay);
-
-
 
 
 # ww-Code - Hashs mit deutschen Konditionen (Code/Description), Quellen:
@@ -356,7 +282,6 @@ $strConditions_de = array(
  '99' => 'starkes Gewitter mit Graupel oder Hagel',
  '100' => 'not available'
 );
-
 
 
 
@@ -576,6 +501,78 @@ if (!function_exists('wwPic')) {
    }
 }
 
+
+
+   # max. stündlich eine neue Datei ([Station]_[ISO-Datum]_[h]_dwdWeather.kmz) erstellen und alle alte [Station].* löschen
+   # Start------------------->
+   $strDatumStunde = date('Y-m-d_G');
+   $strZieldatei = $strTMP.$strStation.'_'.$strDatumStunde.'_dwdWeather.kmz';
+   
+   if(!file_exists($strZieldatei)) {
+      array_map('unlink', glob($strTMP.$strStation.'*'));
+
+      # Datei per CURL abholen -Start------------------->
+      if (function_exists('curl_version')) {
+         $ch = curl_init($strURL);
+         $zieldatei = fopen($strZieldatei, 'w');
+         curl_setopt($ch, CURLOPT_FILE, $zieldatei);
+         curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
+         curl_exec($ch);
+         $intReturnCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+         fclose($zieldatei);
+         # prüfe ob die Seite erreichbar ist!
+         if ($intReturnCode != 200 && $intReturnCode != 302 && $intReturnCode != 304) {return 'ERROR: Page not available!';};
+         }
+      # Datei per CURL abholen -Ende--------------------<
+   } # max. stündlich -Ende-------------------<
+
+
+    # downloaded source data (*.kmz)
+    $fn = $strZieldatei;
+    $za = new ZipArchive();
+    $za->open($fn);
+
+
+    # Header-Infos
+    $stat = $za->statIndex(0);
+    $data = file_get_contents('zip://'.$strZieldatei.'#'.$stat['name']);
+
+    # Ort, Ausgabezeit und Lokation (für Sonnenaufgang und Sonnenuntergang Berechnung)
+    $xml2 = simplexml_load_string($data);
+    $xmlDocument = $xml2->children('kml', true)->Document;
+
+    $location = (string) $xmlDocument->Placemark->description;
+    $coordinates = (string) $xmlDocument->Placemark->Point->coordinates;   # Bitburg "6.53,49.98,359.0"
+    $coordinates = explode(',', $coordinates);
+
+    $now = time();
+    $zenith = 90+50/60;
+    $sunset = date_sunset($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
+    $sunrise = date_sunrise($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
+    $mycoordinates = $coordinates[1] .', '. $coordinates[0];
+    $dayduration = $sunset - $sunrise;
+      $sunrise = date('H:i',$sunrise);
+      $sunset = date('H:i',$sunset);
+        $dayduration = round($dayduration/60/60, 2);
+        $dayduration = str_replace(',', '.', $dayduration);
+
+    # Platzhalter Sonnenaufgang, Sonnenuntergang, Tageslänge und Koordinaten
+    $modx->setPlaceholder('sunrise', $sunrise);
+    $modx->setPlaceholder('sunset', $sunset);
+    $modx->setPlaceholder('dayduration', $dayduration);
+    $modx->setPlaceholder('coordinates', $mycoordinates);
+
+    $pubDate = (string) $xmlDocument->ExtendedData->children('dwd', true)->ProductDefinition->IssueTime;
+      $pubDate = strtotime($pubDate) + $timeOffset;
+        $pubDateDay = date('w', $pubDate);
+        $pubDate = date('Y-m-d H:i', $pubDate);
+        $wochentag = array('So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.');
+        $pubDateDay = $wochentag[$pubDateDay];
+
+    # Platzhalter Ort, Koordinaten und Veröffentlichungsdatum
+    $modx->setPlaceholder('location', $location);
+    $modx->setPlaceholder('pubDate', $pubDate);
+    $modx->setPlaceholder('pubDateDay', $pubDateDay);
 
 
     #short name / long name (for header)
