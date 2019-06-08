@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.036
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.037
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über den Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -72,7 +72,6 @@
 #
 #
 # Variablen -Start------------------->
-
    # Chunk Template(default ist ohne)
    $strTPL = $modx->getOption('TPL',$scriptProperties,'');
    # Anzahl der Vorhersagen (default ist 40, bei 4 pro Tag sind das dann 10 Tage)
@@ -98,7 +97,6 @@
    $valMaxT = 35.0;        # ab x Grad Celsius (z.B. 35.0)
    # wenn Winter-Sommerzeit angepasst werden muss
    $bolTimeOffset = false;
-
 # Variablen -Ende-------------------<
 
    if ($bolTimeOffset) {
@@ -112,6 +110,7 @@
             $timeOffset = '3600';
          }
    }
+
 
 # relative Luftfeuchtigkeit berechnen
 # calculate relative humidity (TTT(K), Td(K))
@@ -160,6 +159,25 @@ if (!function_exists('getWindDirection')) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    $strDatumStunde = date('Y-m-d_G');
    $strZieldatei = $strTMP.$strStation.'_'.$strDatumStunde.'_dwdWeather.kmz';
 
@@ -171,7 +189,6 @@ if (!function_exists('getWindDirection')) {
    # max. stündlich eine neue Datei ([Station]_[ISO-Datum]_[h]_dwdWeather.kmz) erstellen und alle alte [Station].* löschen -Start------------------->
    if(!file_exists($strZieldatei)) {
       array_map('unlink', glob($strTMP.$strStation.'*'));
-
 
       # Datei per CURL abholen -Start------------------->
       if (function_exists('curl_version')) {
@@ -190,15 +207,16 @@ if (!function_exists('getWindDirection')) {
    } # max. stündlich -Ende-------------------<
 
 
+    // downloaded source data (*.kmz)
+    $fn = $strZieldatei;
+    $za = new ZipArchive();
+    $za->open($fn);
 
-// downloaded source data (*.kmz)
-$fn = $strZieldatei;
 
-$za = new ZipArchive();
-$za->open($fn);
 
-for($i=0; $i<$za->numFiles; $i++) {
-    $stat = $za->statIndex($i);
+
+    // Header-Infos
+    $stat = $za->statIndex(0);
     $data = file_get_contents('zip://'.$strZieldatei.'#'.$stat['name']);
 
     # Ort, Ausgabezeit und Lokation (für Sonnenaufgang und Sonnenuntergang Berechnung)
@@ -233,22 +251,13 @@ for($i=0; $i<$za->numFiles; $i++) {
         $wochentag = array('So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.');
         $pubDateDay = $wochentag[$pubDateDay];
 
-
     # Platzhalter Ort, Koordinaten und Veröffentlichungsdatum
     $modx->setPlaceholder('location', $location);
     $modx->setPlaceholder('pubDate', $pubDate);
     $modx->setPlaceholder('pubDateDay', $pubDateDay);
 
-    $data = str_replace(
-      array("kml:", "dwd:"),
-      array("", ""),
-      $data
-    );
 
-    $xml = simplexml_load_string($data);
 
-    $timeSteps = xml2array($xml->Document->ExtendedData->ProductDefinition->ForecastTimeSteps->TimeStep);
-    $lines = array_fill(0, count($timeSteps), array());
 
 
 # ww-Code - Hashs mit deutschen Konditionen (Code/Description), Quellen:
@@ -369,6 +378,8 @@ $strConditions_de = array(
  '99' => 'starkes Gewitter mit Graupel oder Hagel',
  '100' => 'not available'
 );
+
+
 
 
 # Wetter Icons
@@ -587,13 +598,6 @@ if (!function_exists('wwPic')) {
    }
 }
 
-	# Datum (ISO) | Zeit | Wochentag
-    foreach ($timeSteps as $key => $value) {
-        $date = new DateTime($value);
-        array_push($lines[$key], $date->format('Y-m-d'));
-        array_push($lines[$key], $date->format('H:i'));
-		array_push($lines[$key], $wochentag[$date->format('w')]);		
-    } // $timeSteps
 
 
     #short name / long name (for header)
@@ -617,6 +621,31 @@ if (!function_exists('wwPic')) {
     );
     $ids = array_keys($alias);
 
+
+
+
+for($i=0; $i<$za->numFiles; $i++) {
+    $stat = $za->statIndex($i);
+    $data = file_get_contents('zip://'.$strZieldatei.'#'.$stat['name']);
+
+    $data = str_replace(
+      array("kml:", "dwd:"),
+      array("", ""),
+      $data
+    );
+
+    $xml = simplexml_load_string($data);
+    $timeSteps = xml2array($xml->Document->ExtendedData->ProductDefinition->ForecastTimeSteps->TimeStep);
+    $lines = array_fill(0, count($timeSteps), array());
+
+
+	# Datum (ISO) | Zeit | Wochentag
+    foreach ($timeSteps as $key => $value) {
+        $date = new DateTime($value);
+        array_push($lines[$key], $date->format('Y-m-d'));
+        array_push($lines[$key], $date->format('H:i'));
+		array_push($lines[$key], $wochentag[$date->format('w')]);		
+    } // $timeSteps
 
 
    $fnode = $xml->Document->Placemark->ExtendedData->Forecast;
