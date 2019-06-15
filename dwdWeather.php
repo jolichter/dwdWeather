@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.039
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.040
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über dem Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -14,6 +14,10 @@
 # [[!dwdWeather? &STATION=`K428` &TPL=`dwdWetterTPL`]]
 # [[+dwdWeather]]
 # (als Standard wird 12:00 Uhr genommen)
+#
+# alle Vorhersagen stündlich:
+# [[!dwdWeather? &STATION=`K428` &fcAll=`true` &TPL=`dwdWetterTPL`]]
+# [[+dwdWeather]]
 #
 # mit 4 Uhrzeiten pro Tag (T1 -T4) bei 12 Vorhersagen (QTY), also Vorhersage 3 Tage:
 # [[!dwdWeather?
@@ -85,6 +89,7 @@
    # z.B. Forecast 10 Tage = 24*10
    $MAX_COUNT = 24*10;
    # Forecast
+   $fcAll = $modx->getOption('fcAll',$scriptProperties,'false'); # default all-Forecast false
    $time1 = $modx->getOption('T1',$scriptProperties,'12:00'); # default 12:00
    $time2 = $modx->getOption('T2',$scriptProperties,'');
    $time3 = $modx->getOption('T3',$scriptProperties,'');
@@ -778,7 +783,11 @@ for($i=0; $i<$za->numFiles; $i++) {
     // slice & output content
     $lines = array_slice($lines, 0, $MAX_COUNT);    
     foreach ($lines as $line) {
-       if ($line[1] == $time1 or $line[1] == $time2 or $line[1] == $time3 or $line[1] == $time4){
+       if ($fcAll == 'false'){
+           if ($line[1] == $time1 or $line[1] == $time2 or $line[1] == $time3 or $line[1] == $time4){
+               $csvOutput = $csvOutput. implode('|', $line).'||';
+           }
+       } else {
            $csvOutput = $csvOutput. implode('|', $line).'||';
        }
     }
