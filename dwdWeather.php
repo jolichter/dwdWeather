@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.06.040
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.10.041
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über dem Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -512,14 +512,16 @@ if (!function_exists('wwPic')) {
    # Start------------------->
    $strDatumStunde = date('Y-m-d_G');
    $strZieldatei = $strTMP.$strStation.'_'.$strDatumStunde.'_dwdWeather.kmz';
-   
+
    if(!file_exists($strZieldatei)) {
       array_map('unlink', glob($strTMP.$strStation.'*'));
-
       # Datei per CURL abholen -Start------------------->
       if (function_exists('curl_version')) {
          $ch = curl_init($strURL);
          $zieldatei = fopen($strZieldatei, 'w');
+         # deaktiviere SSL Überprüfung
+         #curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+         #curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
          curl_setopt($ch, CURLOPT_FILE, $zieldatei);
          curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
          curl_exec($ch);
@@ -530,6 +532,14 @@ if (!function_exists('wwPic')) {
          }
       # Datei per CURL abholen -Ende--------------------<
    } # max. stündlich -Ende-------------------<
+
+
+   # lösche Datei wenn die Dateigrösse 0 ist
+   clearstatcache();
+   if(0 == filesize($strZieldatei)) {
+     array_map('unlink', glob($strTMP.$strStation.'*'));
+     return 'ERROR: File is empty and due that deleted!';
+   }
 
 
     # downloaded source data (*.kmz)
