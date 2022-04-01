@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 19.10.041
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 22.04.042
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über dem Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -68,7 +68,7 @@
 #  </div>
 #
 #   Vorhersage Platzhalter z.B. für Kalender
-#   -> 20 Vorhersagen (10 Tage): [[+fc_V_E]]  (V = Vorhersage Nr (0-19) | E = Elemente (0-18), z.B. [[+fc_0_5]] 
+#   -> 20 Vorhersagen (10 Tage): [[+fc_V_E]]  (V = Vorhersage Nr (0-19) | E = Elemente (0-18), z.B. [[+fc_0_5]]
 #
 #   19 Elemente: 0 Date | 1 Time | 2 Day | 3 minT | 4 maxT | 5 2mT | 6 dewPoint | 7 windDir | 8 windSpeed | 9 windGust | 10 cloud |
 #   11 hPa | 12 rainKg24h | 13 rainKg6h | 14 sun | 15 vis | 16 sigW | 17 picName | 18 hu |
@@ -85,7 +85,7 @@
    $strStation = $modx->getOption('STATION',$scriptProperties,'10609'); # Trier (älteste Stadt Deutschlands)
    $strURL .= $strStation . '/kml/MOSMIX_L_LATEST_' . $strStation . '.kmz';
    # Icons Bilder Pfad
-   $strURLIcon = $modx->config['base_url'].'assets/dwd_img/';     #Wetter-Icons
+   $strURLIcon = $modx->config['base_url'].'assets/dwd_img/';     # Wetter-Icons
    # z.B. Forecast 10 Tage = 24*10
    $MAX_COUNT = 24*10;
    # Forecast
@@ -104,6 +104,7 @@
    $bolTimeOffset = false;
 # Variablen -Ende-------------------<
 
+   $timeOffset = '0';
    if ($bolTimeOffset) {
       # Sommerzeit/Winterzeit
       # daylight timeOffset to UTC)
@@ -293,13 +294,13 @@ $strConditions_de = array(
 # Wetter Icons
 if (!function_exists('wwPic')) {
    function wwPic($Code, $bolSun, $intTagBeginn, $intTagEnde, $WT, $bolMaxT) {
-     #$intHour = date('H');
+     # $intHour = date('H');
      $intHour = $WT;
      $bolDay  = ($intHour > $intTagBeginn && $intHour < $intTagEnde);
 
       switch ($Code) {
 	case 0:
-		#wenn Tag und heiss: 0h | wenn Tag: 0d | wenn Nacht: 0n
+		# wenn Tag und heiss: 0h | wenn Tag: 0d | wenn Nacht: 0n
             if ($bolDay == true and $bolMaxT == true) {
                 $icon = '0h';
             } elseif ($bolDay == true) {
@@ -309,7 +310,7 @@ if (!function_exists('wwPic')) {
             }
 		break;
 	case 1:
-		#wenn sonniger Tag: 1s | wenn Tag: 1d | wenn Nacht: 1n
+		# wenn sonniger Tag: 1s | wenn Tag: 1d | wenn Nacht: 1n
             if ($bolDay == true and $bolSun == true) {
                 $icon = '1s';
             } elseif ($bolDay == true) {
@@ -319,7 +320,7 @@ if (!function_exists('wwPic')) {
             }
 		break;
 	case 2:
-		#wenn sonniger Tag: 2s | wenn Tag: 2d | wenn Nacht: 2n
+		# wenn sonniger Tag: 2s | wenn Tag: 2d | wenn Nacht: 2n
             if ($bolDay == true and $bolSun == true) {
                 $icon = '2s';
             } elseif ($bolDay == true) {
@@ -457,7 +458,7 @@ if (!function_exists('wwPic')) {
 		$icon = '70-79';
 		break;
 	case 80:
-		#wenn sonniger Tag: 80s | wenn Tag: 80d | wenn Nacht: 80n
+		# wenn sonniger Tag: 80s | wenn Tag: 80d | wenn Nacht: 80n
             if ($bolDay == true and $bolSun == true) {
                 $icon = '80s';
             } elseif ($bolDay == true) {
@@ -497,7 +498,7 @@ if (!function_exists('wwPic')) {
 	case 99:
 		$icon = '91-99';
 		break;
-	//default
+	// default
          default:
 		$icon = 'unknown';
 		break;
@@ -520,8 +521,8 @@ if (!function_exists('wwPic')) {
          $ch = curl_init($strURL);
          $zieldatei = fopen($strZieldatei, 'w');
          # deaktiviere SSL Überprüfung
-         #curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-         #curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+         # curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+         # curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
          curl_setopt($ch, CURLOPT_FILE, $zieldatei);
          curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
          curl_exec($ch);
@@ -590,9 +591,9 @@ if (!function_exists('wwPic')) {
     $modx->setPlaceholder('pubDateDay', $pubDateDay);
 
 
-    #short name / long name (for header)
-    #RR6c not available for all hours! 6am, 12am, 6pm and 12pm - if needed for all hours: change all RR6c to RR1c
-    #RR6c = better precipitation forecasts
+    # short name / long name (for header)
+    # RR6c not available for all hours! 6am, 12am, 6pm and 12pm - if needed for all hours: change all RR6c to RR1c
+    # RR6c = better precipitation forecasts
     $alias = array(
       'TN' => 'minT',        // Minimum temperature - within the last 12 hours (Kelvin) | nur 06:00 und 18:00 Uhr!
       'TX' => 'maxT',        // Maximum temperature - within the last 12 hours (Kelvin) | nur 06:00 und 18:00 Uhr!
@@ -634,7 +635,7 @@ for($i=0; $i<$za->numFiles; $i++) {
         $date = new DateTime($value);
         array_push($lines[$key], $date->format('Y-m-d'));
         array_push($lines[$key], $date->format('H:i'));
-		array_push($lines[$key], $wochentag[$date->format('w')]);		
+		array_push($lines[$key], $wochentag[$date->format('w')]);
     } // $timeSteps
 
 
@@ -738,9 +739,10 @@ for($i=0; $i<$za->numFiles; $i++) {
     $rs = getParamArray($fnode, 'SunD3');
     $ttt = getParamArray($fnode, 'TTT');
     foreach ($ww as $key => $value) {
-       #$intW = round($ww[$key]);
+       # $intW = round(floatval($ww[$key]));
        $valTTT = round(floatval($ttt[$key]) - 273.15, 1);
-       $intS = round($rs[$key]);
+       $intS = round(floatval($rs[$key]));
+
           # Zeit umrechnen in %/3h
           $intS = floatval($intS) / 3600;
           $intS = round($intS * 100 / 3);
@@ -770,28 +772,29 @@ for($i=0; $i<$za->numFiles; $i++) {
       $WT = strtotime($lines[$key][1]); # Uhrzeit
       $WT = intval(date('G',$WT));
 
-    array_push($lines[$key], $strURLIcon.wwPic(round($value),$bolSun, $intTagBeginn, $intTagEnde, $WT,$bolMaxT));
+      array_push($lines[$key], $strURLIcon.wwPic(round(floatval($value)), $bolSun, $intTagBeginn, $intTagEnde, $WT, $bolMaxT));
     }
 
     // berechnen der Luftfeuchtigkeit
     // calculate humidity (hu %)
     $t = getParamArray($fnode, 'TTT');  # Temperature 2m above surface
-    $d = getParamArray($fnode, 'Td');   # Dewpoint 2m above surface 
+    $d = getParamArray($fnode, 'Td');   # Dewpoint 2m above surface
     foreach ($t as $key => $value) {
         array_push($lines[$key], getHumidity($value, $d[$key]).' %');
     }
 
 
+    $csvOutput = '0';
 
     // output header
-    #$csvOutput = str_replace(
+    # $csvOutput = str_replace(
     #  array_keys($alias),
     #  array_values($alias),
     #  'Date|Time|Tag|'.implode('|', $ids).'|pic'.'|hu'.'||'
-    #);
+    # );
 
     // slice & output content
-    $lines = array_slice($lines, 0, $MAX_COUNT);    
+    $lines = array_slice($lines, 0, $MAX_COUNT);
     foreach ($lines as $line) {
        if ($fcAll == 'false'){
            if ($line[1] == $time1 or $line[1] == $time2 or $line[1] == $time3 or $line[1] == $time4){
@@ -809,7 +812,7 @@ for($i=0; $i<$za->numFiles; $i++) {
 
 # mehrdimensionales Array erstellen
 $array = array_map(function($v){return str_getcsv($v, '|');}, explode('||', $csvOutput));
-#print_r($array);
+# print_r($array);
 
 $intCA = count($array) -1;
 unset($array[$intCA]); # RIP last array (it is empty)
@@ -857,7 +860,7 @@ unset($array[$intCA]); # RIP last array (it is empty)
   if ($key >= $intQTY) break;
 
         foreach ($value AS $subKey => $subValue) {
-            #echo $key.' | '.$subKey.' | '.$subValue.'<br>';
+            # echo $key.' | '.$subKey.' | '.$subValue.'<br>';
 
             # Platzhalter (z.B. für Kalender)
             $modx->setPlaceholder('fc_'.$key.'_'.$subKey, $subValue);
