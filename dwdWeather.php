@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 22.04.042
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 22.04.043
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über dem Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -102,9 +102,9 @@
    $valMaxT = 35.0;        # ab x Grad Celsius (z.B. 35.0)
    # wenn Winter-Sommerzeit angepasst werden muss
    $bolTimeOffset = false;
+   $timeOffset = '0';
 # Variablen -Ende-------------------<
 
-   $timeOffset = '0';
    if ($bolTimeOffset) {
       # Sommerzeit/Winterzeit
       # daylight timeOffset to UTC)
@@ -784,7 +784,7 @@ for($i=0; $i<$za->numFiles; $i++) {
     }
 
 
-    $csvOutput = '0';
+    $csvOutput = '';
 
     // output header
     # $csvOutput = str_replace(
