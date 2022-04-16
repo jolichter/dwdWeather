@@ -52,6 +52,11 @@
 - [DWD Stationskatalog (Vorhersagepunkte)](https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102)
 - [ww-Code - Hashs mit deutschen Konditionen (Code/Description)](https://wetterkanal.kachelmannwetter.com/was-ist-der-ww-code-in-der-meteorologie/)
 
+Update 2022:
+- Leider ist der DWD nicht in der Lage, alte Links auf neue oder richtige Links umzuleiten und daher gibt es tote Links
+- Unfortunately the DWD is not able to redirect old links to new or correct links and therefore there are dead links
+
+
 ##### Demo Weather Print Screen
 ![MODX-DWD-Wetter](wetterDWD.jpg)
 ##### Demo Weather Print Screen with [fullCalendar](https://fullcalendar.io/)
