@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 22.04.043
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 22.05.044
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über dem Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -562,9 +562,14 @@ if (!function_exists('wwPic')) {
     $coordinates = explode(',', $coordinates);
 
     $now = time();
-    $zenith = 90+50/60;
-    $sunset = date_sunset($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
-    $sunrise = date_sunrise($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
+    # PHP 8.1: date_sunrise, date_sunset functions are deprecated (in PHP 9.0 will be removed) and replaced with date_sun_info
+    # $zenith = 90+50/60;
+    # $sunset = date_sunset($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
+    # $sunrise = date_sunrise($now, SUNFUNCS_RET_TIMESTAMP, $coordinates[1], $coordinates[0], $zenith);
+    $suninfo = date_sun_info($now, $coordinates[1], $coordinates[0]);
+    $sunrise = $suninfo['sunrise'];
+    $sunset  = $suninfo['sunset'];
+
     $mycoordinates = $coordinates[1] .', '. $coordinates[0];
     $dayduration = $sunset - $sunrise;
       $sunrise = date('H:i',$sunrise);
