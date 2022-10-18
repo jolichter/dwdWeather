@@ -1,6 +1,6 @@
 <?php
 #
-# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 22.05.044
+# DWD Wettervorhersage MODX Snippet | MODX Weather Forecast V 22.10.045
 #
 # Entgeltfreie Versorgung mit DWD-Geodaten über dem Serverdienst https://opendata.dwd.de
 # https://opendata.dwd.de/README.txt
@@ -53,7 +53,7 @@
 #  <div>
 #    <div>
 #    <h4>[[+fc0]] [[+fc2]] [[+fc1]]</h4>
-#	   <img src='[[+fc17]]' title='[[+fc16]]' alt='' />
+#	   <img src='[[+fc17]]' title='[[+fc16]]' alt='' >
 #	   </div>
 #	   [[+fc5:gte=`0.1`:then=`<span class="label blue">[[+fc5]]</span>`:else=`<span class="label red">[[+fc5]]</span>`]]
 #	   <br />
