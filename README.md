@@ -1,13 +1,16 @@
 # dwdWeather
 ## MODX Weather Forecast
-## tested with MODX 2.8.4 and 3.0.3
+## tested with MODX 2.8.5 and 3.0.3
 
-#### HINWEIS: Dieses Projekt ist ein privates Open-Source-Projekt und steht in keiner Verbindung zum Deutschen Wetterdienst ([Copyright](https://www.dwd.de/DE/service/copyright/copyright_node.html)).
-#### NOTE: This project is a private open-source project and is not affiliated with the German Weather Service ([Copyright](https://www.dwd.de/DE/service/copyright/copyright_node.html)).
+#### HINWEIS: Dieses Projekt ist ein privates Open-Source-Projekt und steht in keiner Verbindung zum Deutschen Wetterdienst. NOTE: This project is a private open-source project and is not affiliated with the German Weather Service.
+
+Link: [DWD Copyright](https://www.dwd.de/DE/service/copyright/copyright_node.html)
+
+![DWD-Logo](https://github.com/jolichter/dwdWeather/assets/1485851/d3542dc3-29e2-477b-b5bc-c033eefeadd9)
 
 #### Wettervorhersage für MODX Revolution vom deutschen Wetterdienst
 #### Weather forecast for MODX Revolution by the German Weather Service
-- [Link DWD.de](https://www.dwd.de/)
+- Link: [DWD.de](https://www.dwd.de/)
 - DEUTSCHE DWD-Wettervorhersage via CURL für MODX - benötigt eine Ressource, 2 Snippets und 2 Chunks
 - GERMAN DWD-Weather forecast via CURL for MODX - needs one Resource, 2 Snippets and 2 Chunks
 
