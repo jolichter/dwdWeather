@@ -1,6 +1,9 @@
 # dwdWeather
 ## MODX Weather Forecast
-## tested with MODX 2.8.4 and 3.0.1
+## tested with MODX 2.8.4 and 3.0.3
+
+#### HINWEIS: Dieses Projekt ist ein privates Open-Source-Projekt und steht in keiner Verbindung zum Deutschen Wetterdienst ([Copyright](https://www.dwd.de/DE/service/copyright/copyright_node.html)).
+#### NOTE: This project is a private open-source project and is not affiliated with the German Weather Service ([Copyright](https://www.dwd.de/DE/service/copyright/copyright_node.html)).
 
 #### Wettervorhersage für MODX Revolution vom deutschen Wetterdienst
 #### Weather forecast for MODX Revolution by the German Weather Service
